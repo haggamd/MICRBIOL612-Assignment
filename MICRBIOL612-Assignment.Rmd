@@ -1,0 +1,43 @@
+---
+output: html_document
+---
+# MICRBIOL612 Assignment
+## Mikel D. Haggadone
+<br>
+
+[//]: This is my code for the data included below:
+```{r, echo=FALSE, }
+gapminder <- read.csv("gapminder-FiveYearData.csv")
+Asia_Data <- gapminder[gapminder$continent == "Asia",]
+lifeExp_over_time <- Asia_Data[,c(2,5)]
+lifeExp_by_year <- function(time) {
+  lifeExp_over_time[lifeExp_over_time$year == time,]
+}
+mean_lifeExp_by_year <- function(time) {
+  lifeExp_by_year_matrix <- lifeExp_by_year(time)
+  result_mean <- mean(lifeExp_by_year_matrix[,2])
+  return(result_mean)
+}
+```
+
+#### Using the gapminder data set, I have written and combined two functions that allow me to efficiently calculate the mean life expectancy in Asia for each year analyzed from 1952 to 2007. These values are as follows: **1952** = `r mean_lifeExp_by_year(1952)`; **1957** = `r mean_lifeExp_by_year(1957)`; **1962** = `r mean_lifeExp_by_year(1962)`; **1967** = `r mean_lifeExp_by_year(1967)`; **1972** = `r mean_lifeExp_by_year(1972)`; **1977** = `r mean_lifeExp_by_year(1977)`; **1982** = `r mean_lifeExp_by_year(1982)`; **1987** = `r mean_lifeExp_by_year(1987)`; **1992** = `r mean_lifeExp_by_year(1992)`; **1997** = `r mean_lifeExp_by_year(1997)`; **2002** = `r mean_lifeExp_by_year(2002)`; **2007** = `r mean_lifeExp_by_year(2007)`. From these data, it can be concluded that the life expectancy in Asia has steadily increased over time. To represent this trend graphically, a plot of my data is included below. 
+<br>
+
+[//]: This is my code for the data plot included below:
+```{r, echo=FALSE, warning=FALSE}
+gapminder <- read.csv("gapminder-FiveYearData.csv")
+Asia_Data <- gapminder[gapminder$continent == "Asia",]
+lifeExp_over_time <- Asia_Data[,c(2,5)]
+lifeExp_by_year <- function(time) {
+  lifeExp_over_time[lifeExp_over_time$year == time,]
+}
+mean_lifeExp_by_year <- function(time) {
+  lifeExp_by_year_matrix <- lifeExp_by_year(time)
+  result_mean <- mean(lifeExp_by_year_matrix[,2])
+  return(result_mean)
+}
+library(ggplot2)
+ggplot(data = Asia_Data, aes(y = lifeExp, x = year, color = country)) + geom_point() + ggtitle("Life Expectancy in Asian Countries: 1952 to 2007") + labs(x="Year",y="Life Expectancy") + stat_summary(fun.y = mean,geom = "line", colour = "black", aes(group=1))
+```
+
+##### Figure 1. Mean life expectancy in Asia has steadily increased since 1952. Individual data points represent the calculated life expectancy for each Asian country analyzed over time, as specificied in the plot. The overlayed black line represents mean life expectancy values for all of Asia according to year.      
